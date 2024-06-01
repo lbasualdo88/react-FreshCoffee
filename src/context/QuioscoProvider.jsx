@@ -19,12 +19,13 @@ const QuioscoProvider = ({children}) => {
     }, [pedido])
 
     const obtenerCategorias = async () => {
-        
         try {
             const {data} = await clienteAxios('/api/categorias')
+            
             setCategorias(data.data)
             setCategoriaActual(data.data[0])
         } catch (error) {
+            console.log('hay un error')
             console.log(error)
         }
     }
