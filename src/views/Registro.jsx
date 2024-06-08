@@ -1,6 +1,31 @@
+import { createRef, useState } from 'react'
 import { Link } from 'react-router-dom'
+import Alerta from '../components/Alerta';
+import { useAuth } from '../hooks/useAuth';
 
 export default function Registro() {
+
+    const nameRef = createRef();
+    const emailRef = createRef();
+    const passwordRef = createRef();
+    const passwordConfirmationRef = createRef();
+
+    const [errores, setErrores] = useState([])
+    const {registro} = useAuth({middleware: 'guest', url: '/'})
+
+    const handleSubmit = async  e => {
+        e.preventDefault();
+  
+        const datos = {
+            name: nameRef.current.value,
+            email: emailRef.current.value,
+            password: passwordRef.current.value,
+            password_confirmation: passwordConfirmationRef.current.value
+        }
+        
+       registro(datos, setErrores)
+    }
+
   return (
     <>
             <h1 className="text-4xl font-black">Crea tu Cuenta</h1>
@@ -8,9 +33,11 @@ export default function Registro() {
 
             <div className="bg-white shadow-md rounded-md mt-10 px-5 py-10">
                 <form
-                    
+                    onSubmit={handleSubmit}
+                    noValidate
                 >
-                    
+                           {errores ? errores.map((error, i) => <Alerta key={i}>{error}</Alerta>)  : null }
+           
            
                     <div className="mb-4">
                         <label
@@ -23,6 +50,7 @@ export default function Registro() {
                             className="mt-2 w-full p-3 bg-gray-50"
                             name="name"
                             placeholder="Tu Nombre"
+                            ref={nameRef}
                             
                         />
                     </div>
@@ -38,6 +66,7 @@ export default function Registro() {
                             className="mt-2 w-full p-3 bg-gray-50"
                             name="email"
                             placeholder="Tu Email"
+                            ref={emailRef}
                             
                         />
                     </div>
@@ -53,6 +82,7 @@ export default function Registro() {
                             className="mt-2 w-full p-3 bg-gray-50"
                             name="password"
                             placeholder="Tu Password"
+                            ref={passwordRef}
                             
                         />
                     </div>
@@ -68,6 +98,7 @@ export default function Registro() {
                             className="mt-2 w-full p-3 bg-gray-50"
                             name="password_confirmation"
                             placeholder="Repetir Password"
+                            ref={passwordConfirmationRef}
                             
                         />
                     </div>

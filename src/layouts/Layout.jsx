@@ -4,8 +4,9 @@ import { ToastContainer } from 'react-toastify'
 import "react-toastify/dist/ReactToastify.css";
 import Sidebar from '../components/Sidebar'
 import Resumen from '../components/Resumen'
-import useQuisco from '../hooks/useQuiosco'
 import ModalProducto from '../components/ModalProducto'
+import useQuisco from '../hooks/useQuiosco'
+import { useAuth } from '../hooks/useAuth';
 
 const customStyles = {
   content: {
@@ -21,6 +22,7 @@ Modal.setAppElement('#root')
 
 export default function Layout() {
 
+  useAuth({middleware: 'auth'})
   const { modal } = useQuisco();
 
   return (

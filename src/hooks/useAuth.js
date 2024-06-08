@@ -21,7 +21,8 @@ export const useAuth = ({middleware, url}) => {
     )
 
      const login = async (datos, setErrores) => {
-        try {
+
+       try {
             const {data} = await clienteAxios.post('/api/login', datos)
             localStorage.setItem('AUTH_TOKEN', data.token);
             setErrores([])
@@ -30,6 +31,7 @@ export const useAuth = ({middleware, url}) => {
             setErrores(Object.values(error.response.data.errors) )
         }
      }
+    
 
      const registro = async (datos, setErrores) => {
         try {

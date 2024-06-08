@@ -19,8 +19,13 @@ const QuioscoProvider = ({children}) => {
     }, [pedido])
 
     const obtenerCategorias = async () => {
+        const token = localStorage.getItem('AUTH_TOKEN')
         try {
-            const {data} = await clienteAxios('/api/categorias')
+            const {data} = await clienteAxios('/api/categorias', {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
             
             setCategorias(data.data)
             setCategoriaActual(data.data[0])
@@ -69,7 +74,7 @@ const QuioscoProvider = ({children}) => {
         setPedido(pedidoActualizado)
         toast.success('Eliminado del Pedido')
     }
-/*
+
     const handleSubmitNuevaOrden = async (logout) => {
         const token = localStorage.getItem('AUTH_TOKEN')
         try {
@@ -87,13 +92,11 @@ const QuioscoProvider = ({children}) => {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
-            })
-
+            } )
             toast.success(data.message);
             setTimeout(() => {
                 setPedido([])
             }, 1000);
-
             // Cerrar la sesión del usuario
             setTimeout(() => {
                 localStorage.removeItem('AUTH_TOKEN');
@@ -103,6 +106,8 @@ const QuioscoProvider = ({children}) => {
             console.log(error)
         }
     }
+        
+
 
     const handleClickCompletarPedido = async id => {
         const token = localStorage.getItem('AUTH_TOKEN')
@@ -130,7 +135,7 @@ const QuioscoProvider = ({children}) => {
         }
     }
 
-*/
+
     return (
         <QuioscoContext.Provider
             value={{
@@ -146,9 +151,9 @@ const QuioscoProvider = ({children}) => {
                 handleEditarCantidad,
                 handleEliminarProductoPedido,
                 total,
-            /*    handleSubmitNuevaOrden,
+                handleSubmitNuevaOrden,
                 handleClickCompletarPedido,
-                handleClickProductoAgotado*/
+                handleClickProductoAgotado
             }}
         >{children}</QuioscoContext.Provider>
     )
